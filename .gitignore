@@ -1,0 +1,71 @@
+# Node & Dependências
+/node_modules
+npm-debug.log
+yarn-error.log
+yarn-debug.log*
+.pnpm-debug.log
+
+# Composer & Dependências PHP
+/vendor
+/auth.json
+
+# Laravel: Configurações e Ambientes
+.env
+.env.backup
+.env.production
+.env.local
+
+# Laravel: Cache & Logs & Storage
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+*.log
+
+# Code Coverage & Testes
+.phpunit.result.cache
+/.phpunit.cache
+/coverage/
+
+# IDEs e Editores
+/.idea
+/.vscode
+/.nova
+/.fleet
+/.zed
+*.sublime-project
+*.sublime-workspace
+.phpactor.json
+
+# Ambientes Locais (Homestead/Sail/Valet)
+Homestead.json
+Homestead.yaml
+npm-debug.log*
+
+# Sistema Operacional (macOS / Windows)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build e compilados genéricos
+*.class
+*.exe
+*.o
+*.so
+*.dll
+*.pyc
