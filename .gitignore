@@ -9,11 +9,19 @@ yarn-debug.log*
 /vendor
 /auth.json
 
+# --- Docker / Laravel Sail ---
+.docker/
+docker-compose.override.yml
+auth.json
+
 # Laravel: Configurações e Ambientes
 .env
 .env.backup
 .env.production
 .env.local
+.env.staging
+.phpunit.xml
+phpright.xml
 
 # Laravel: Cache & Logs & Storage
 /public/build
@@ -34,7 +42,8 @@ yarn-debug.log*
 *.log
 
 # Code Coverage & Testes
-.phpunit.result.cache
+/.phpunit.result.cache
+/bootstrap/cache/*
 /.phpunit.cache
 /coverage/
 
@@ -61,6 +70,7 @@ npm-debug.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.swp
 
 # Build e compilados genéricos
 *.class
