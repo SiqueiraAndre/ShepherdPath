@@ -67,6 +67,7 @@ class PresencaResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('data_missa', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('missa')
                     ->relationship('missa', 'descricao')
