@@ -31,72 +31,72 @@ class LinkAcessoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Detalhes do Link')
-                    ->schema([
-                        Forms\Components\TextInput::make('descricao')
-                            ->label('Descrição')
-                            ->placeholder('Ex: Link Domingo Manhã')
-                            ->maxLength(255)
-                            ->columnSpanFull(),
-                        Forms\Components\DateTimePicker::make('expira_em')
-                            ->label('Expira em (Opcional)')
-                            ->helperText('Se vazio, o link nunca expirará automaticamente.'),
-                        Forms\Components\Toggle::make('is_ativo')
-                            ->label('Link Ativo')
-                            ->default(true),
-                    ])->columns(2)
-            ]);
+            Forms\Components\Section::make('Detalhes do Link')
+            ->schema([
+                Forms\Components\TextInput::make('descricao')
+                ->label('Descrição')
+                ->placeholder('Ex: Link Domingo Manhã')
+                ->maxLength(255)
+                ->columnSpanFull(),
+                Forms\Components\DateTimePicker::make('expira_em')
+                ->label('Expira em (Opcional)')
+                ->helperText('Se vazio, o link nunca expirará automaticamente.'),
+                Forms\Components\Toggle::make('is_ativo')
+                ->label('Link Ativo')
+                ->default(true),
+            ])->columns(2)
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('descricao')
-                    ->label('Descrição')
-                    ->searchable()
-                    ->weight(FontWeight::Bold),
-                Tables\Columns\TextColumn::make('acessos')
-                    ->label('Qtd. Acessos')
-                    ->numeric()
-                    ->sortable()
-                    ->badge()
-                    ->color('success'),
-                Tables\Columns\TextColumn::make('expira_em')
-                    ->label('Vencimento')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_ativo')
-                    ->label('Ativo')
-                    ->boolean(),
-            ])
+            Tables\Columns\TextColumn::make('descricao')
+            ->label('Descrição')
+            ->searchable()
+            ->weight(FontWeight::Bold),
+            Tables\Columns\TextColumn::make('acessos')
+            ->label('Qtd. Acessos')
+            ->numeric()
+            ->sortable()
+            ->badge()
+            ->color('success'),
+            Tables\Columns\TextColumn::make('expira_em')
+            ->label('Vencimento')
+            ->dateTime('d/m/Y H:i')
+            ->sortable(),
+            Tables\Columns\IconColumn::make('is_ativo')
+            ->label('Ativo')
+            ->boolean(),
+        ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
-            ])
+            //
+        ])
             ->actions([
-                Tables\Actions\Action::make('copiar')
-                    ->label('Copiar Link')
-                    ->icon('heroicon-o-clipboard-document')
-                    ->color('gray')
-                    ->action(function (LinkAcesso $record) {
-                        // A simple copy action isn't fully native via backend action without Alpine/browser API in V3 easily, 
-                        // but Filament has a copyable() text column. We can use that in the column!
-                    }),
-                Tables\Actions\Action::make('qrcode')
-                    ->label('QR Code')
-                    ->icon('heroicon-o-qr-code')
-                    ->modalHeading('QR Code para Check-in')
-                    ->modalContent(fn (LinkAcesso $record) => view('filament.modals.qr-code', ['record' => $record]))
-                    ->modalSubmitAction(false)
-                    ->modalCancelActionLabel('Fechar'),
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\Action::make('copiar')
+            ->label('Copiar Link')
+            ->icon('heroicon-o-clipboard-document')
+            ->color('gray')
+            ->action(function (LinkAcesso $record) {
+        // A simple copy action isn't fully native via backend action without Alpine/browser API in V3 easily, 
+        // but Filament has a copyable() text column. We can use that in the column!
+        }),
+            Tables\Actions\Action::make('qrcode')
+            ->label('QR Code')
+            ->icon('heroicon-o-qr-code')
+            ->modalHeading('QR Code para Check-in')
+            ->modalContent(fn(LinkAcesso $record) => view('filament.modals.qr-code', ['record' => $record]))
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel('Fechar'),
+            Tables\Actions\EditAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array

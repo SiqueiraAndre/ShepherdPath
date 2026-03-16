@@ -21,7 +21,9 @@ class PresencaResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Presenças';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+
+    protected static ?string $navigationGroup = 'Utilitários';
 
     public static function form(Form $form): Form
     {
@@ -67,7 +69,7 @@ class PresencaResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('data_missa', 'desc')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('missa')
                     ->relationship('missa', 'descricao')
@@ -106,6 +108,7 @@ class PresencaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
