@@ -83,17 +83,25 @@
                 </div>
 
                 <!-- Nome do Aluno (Aparece apos Catequista e Busca Dinâmica) -->
-                <div x-show="catequistaSelecionado !== ''" x-transition.duration.300ms x-cloak>
+                <div x-show="catequistaSelecionado !== ''" x-transition.duration.300ms x-cloak class="relative" @click.away="mostrarListaAlunos = false">
                     <label for="nome_completo" class="block text-sm font-medium text-gray-700 mb-1">Qual o seu nome?</label>
-                    <input type="text" id="nome_completo" name="nome_completo" x-model="nome_completo" required list="alunos-dinamicos"
+                    <input type="text" id="nome_completo" name="nome_completo" x-model="nome_completo" required 
+                        @focus="mostrarListaAlunos = true"
+                        @input="mostrarListaAlunos = true"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                         placeholder="Digite pra buscar ou cadastrar..." autocomplete="off">
                     
-                    <datalist id="alunos-dinamicos">
-                        <template x-for="aluno in alunosFiltrados" :key="aluno.id">
-                            <option x-bind:value="aluno.nome_completo"></option>
-                        </template>
-                    </datalist>
+                    <!-- Dropdown Customizado Tailwind -->
+                    <div x-show="mostrarListaAlunos && alunosFiltradosPorBusca.length > 0" x-transition x-cloak
+                         class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl max-h-48 overflow-y-auto">
+                        <ul class="py-1">
+                            <template x-for="aluno in alunosFiltradosPorBusca" :key="aluno.id">
+                                <li @click="nome_completo = aluno.nome_completo; mostrarListaAlunos = false" 
+                                    class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-gray-700 transition-colors"
+                                    x-text="aluno.nome_completo"></li>
+                            </template>
+                        </ul>
+                    </div>
                     <p class="text-xs text-gray-500 mt-2">
                         Seu nome não está na lista? É só digitar o nome completo!
                     </p>
@@ -124,6 +132,7 @@
                 etapaSelecionada: '',
                 catequistaSelecionado: '',
                 nome_completo: '',
+                mostrarListaAlunos: false,
                 // Passa a collection inteira de etapas serializada do Blade para JS 
                 etapasData: @json($etapas),
                 
@@ -145,6 +154,11 @@
                     const catequistaInfo = listagemCatequistas.find(c => c.id == this.catequistaSelecionado);
 
                     return catequistaInfo && catequistaInfo.alunos ? catequistaInfo.alunos : [];
+                },
+
+                get alunosFiltradosPorBusca() {
+                    const termo = this.nome_completo.toLowerCase();
+                    return this.alunosFiltrados.filter(a => a.nome_completo.toLowerCase().includes(termo));
                 }
             }))
         })
