@@ -29,21 +29,7 @@
             <form action="{{ route('presenca.store') }}" method="POST" class="space-y-5">
                 @csrf
 
-                <!-- Nome do Aluno -->
-                <div>
-                    <label for="nome_completo" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo do Aluno(a)</label>
-                    <input type="text" id="nome_completo" name="nome_completo" required list="alunos-lista"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                        placeholder="Ex: João Silva Souza" autocomplete="off">
-                    <datalist id="alunos-lista">
-                        @foreach($alunos as $aluno)
-                            <option value="{{ $aluno->nome_completo }}"></option>
-                        @endforeach
-                    </datalist>
-                    @error('nome_completo')
-                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
-                    @enderror
-                </div>
+                <!-- Oculto até Etapa/Catequista Serem selecionados -->
 
                 <!-- Horário da Missa -->
                 <div>
@@ -63,7 +49,7 @@
                 <!-- Etapa da Catequese -->
                 <div>
                     <label for="etapa_id" class="block text-sm font-medium text-gray-700 mb-1">Qual é a sua Etapa?</label>
-                    <select id="etapa_id" name="etapa_id" x-model="etapaSelecionada" required
+                    <select id="etapa_id" name="etapa_id" x-model="etapaSelecionada" @change="catequistaSelecionado = ''; nome_completo = ''" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
                         <option value="" disabled selected>Selecione a etapa...</option>
                         @foreach($etapas as $etapa)
@@ -78,7 +64,7 @@
                 <!-- Filtro Dinâmico de Catequistas via Alpine.js -->
                 <div x-show="etapaSelecionada !== ''" x-transition.duration.300ms x-cloak>
                     <label for="catequista_id" class="block text-sm font-medium text-gray-700 mb-1">Quem são seus(suas) Catequistas?</label>
-                    <select id="catequista_id" name="catequista_id" required :disabled="etapaSelecionada === ''"
+                    <select id="catequista_id" name="catequista_id" x-model="catequistaSelecionado" @change="nome_completo = ''" required :disabled="etapaSelecionada === ''"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white disabled:bg-gray-100 disabled:text-gray-400">
                         <option value="" disabled selected>Selecione os catequistas...</option>
                         
@@ -92,6 +78,26 @@
                         Mostrando apenas catequistas da etapa selecionada.
                     </p>
                     @error('catequista_id')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Nome do Aluno (Aparece apos Catequista e Busca Dinâmica) -->
+                <div x-show="catequistaSelecionado !== ''" x-transition.duration.300ms x-cloak>
+                    <label for="nome_completo" class="block text-sm font-medium text-gray-700 mb-1">Qual o seu nome?</label>
+                    <input type="text" id="nome_completo" name="nome_completo" x-model="nome_completo" required list="alunos-dinamicos"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="Digite pra buscar ou cadastrar..." autocomplete="off">
+                    
+                    <datalist id="alunos-dinamicos">
+                        <template x-for="aluno in alunosFiltrados" :key="aluno.id">
+                            <option x-bind:value="aluno.nome_completo"></option>
+                        </template>
+                    </datalist>
+                    <p class="text-xs text-gray-500 mt-2">
+                        Seu nome não está na lista? É só digitar o nome completo!
+                    </p>
+                    @error('nome_completo')
                         <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                     @enderror
                 </div>
@@ -116,17 +122,29 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('checkinForm', () => ({
                 etapaSelecionada: '',
+                catequistaSelecionado: '',
+                nome_completo: '',
                 // Passa a collection inteira de etapas serializada do Blade para JS 
                 etapasData: @json($etapas),
                 
                 get catequistasFiltrados() {
-                    if (!this.etapaSelecionada) return [];
+                    if (!this.etapaSelecionada) {
+                        this.catequistaSelecionado = '';
+                        return [];
+                    }
                     
                     // Encontra a etapa completa no array local
                     const etapa = this.etapasData.find(e => e.id == this.etapaSelecionada);
-                    
-                    // Se encontrou, retorna a collection dos catequistas vinculados a ela
                     return etapa ? etapa.catequistas : [];
+                },
+
+                get alunosFiltrados() {
+                    if (!this.catequistaSelecionado) return [];
+
+                    const listagemCatequistas = this.catequistasFiltrados;
+                    const catequistaInfo = listagemCatequistas.find(c => c.id == this.catequistaSelecionado);
+
+                    return catequistaInfo && catequistaInfo.alunos ? catequistaInfo.alunos : [];
                 }
             }))
         })
