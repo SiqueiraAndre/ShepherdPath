@@ -19,6 +19,8 @@ class AlunoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Cadastros';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -59,10 +61,16 @@ class AlunoResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('etapa')
+                    ->relationship('etapa', 'nome')
+                    ->label('Filtrar por Etapa'),
+                Tables\Filters\SelectFilter::make('catequista')
+                    ->relationship('catequista', 'nomes')
+                    ->label('Filtrar por Catequista'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
