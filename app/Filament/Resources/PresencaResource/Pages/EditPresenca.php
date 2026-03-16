@@ -10,6 +10,8 @@ class EditPresenca extends EditRecord
 {
     protected static string $resource = PresencaResource::class;
 
+    protected ?string $heading = 'Editar Presença';
+
     protected function getHeaderActions(): array
     {
         return [

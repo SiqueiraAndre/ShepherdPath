@@ -9,4 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePresenca extends CreateRecord
 {
     protected static string $resource = PresencaResource::class;
+
+    protected ?string $heading = 'Criar Presença';
 }

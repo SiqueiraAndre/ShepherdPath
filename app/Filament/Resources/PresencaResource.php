@@ -17,6 +17,10 @@ class PresencaResource extends Resource
 {
     protected static ?string $model = Presenca::class;
 
+    protected static ?string $modelLabel = 'Presença';
+
+    protected static ?string $pluralModelLabel = 'Presenças';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
