@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Etapa;
 use App\Models\Missa;
+use App\Models\Aluno;
+use App\Models\Presenca;
 use Illuminate\Http\Request;
 
 class PresencaController extends Controller
@@ -13,8 +15,9 @@ class PresencaController extends Controller
         // Carrega as missas e as etapas junto com seus catequistas relacionados
         $missas = Missa::all();
         $etapas = Etapa::with('catequistas')->get();
+        $alunos = Aluno::select('nome_completo')->distinct()->get();
 
-        return view('presenca', compact('missas', 'etapas'));
+        return view('presenca', compact('missas', 'etapas', 'alunos'));
     }
 
     public function store(Request $request)
@@ -26,7 +29,27 @@ class PresencaController extends Controller
             'catequista_id' => 'required|exists:catequistas,id',
         ]);
 
-        // A lógica do Aluno/Presenca será expandida adiante
-        return redirect()->back()->with('success', 'Presença registrada com sucesso!');
+        $aluno = Aluno::firstOrCreate(
+            ['nome_completo' => $request->nome_completo],
+            [
+                'etapa_id' => $request->etapa_id,
+                'catequista_id' => $request->catequista_id,
+            ]
+        );
+
+        if ($aluno->etapa_id != $request->etapa_id || $aluno->catequista_id != $request->catequista_id) {
+            $aluno->update([
+                'etapa_id' => $request->etapa_id,
+                'catequista_id' => $request->catequista_id,
+            ]);
+        }
+
+        Presenca::create([
+            'aluno_id' => $aluno->id,
+            'missa_id' => $request->missa_id,
+            'data_missa' => now()->toDateString(),
+        ]);
+
+        return redirect()->back()->with('success', 'Presença de ' . $aluno->nome_completo . ' registrada com sucesso!');
     }
 }
