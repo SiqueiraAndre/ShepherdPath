@@ -21,7 +21,8 @@ class PresencasWidget extends BaseWidget
             Stat::make('Presenças no Fim de Semana', $totalPresencas)
                 ->description('Missa de Sábado e Domingo')
                 ->descriptionIcon('heroicon-m-users')
-                ->color('success'),
+                ->color('success')
+                ->url(route('filament.admin.resources.presencas.index')),
         ];
     }
 }
