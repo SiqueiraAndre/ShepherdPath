@@ -14,10 +14,9 @@ class PresencaController extends Controller
     {
         // Carrega as missas e as etapas junto com seus catequistas relacionados
         $missas = Missa::all();
-        $etapas = Etapa::with('catequistas')->get();
-        $alunos = Aluno::select('nome_completo')->distinct()->get();
+        $etapas = Etapa::with(['catequistas', 'catequistas.alunos'])->get();
 
-        return view('presenca', compact('missas', 'etapas', 'alunos'));
+        return view('presenca', compact('missas', 'etapas'));
     }
 
     public function store(Request $request)
