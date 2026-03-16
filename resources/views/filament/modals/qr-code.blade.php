@@ -40,15 +40,19 @@
         {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(250)->generate(url('/?ref=' . $record->hash)) !!}
     </div>
 
-    <button type="button" @click="downloadQrCode()"
-        class="flex items-center gap-2 text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition-colors shadow-sm">
-        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-        Baixar Imagem
-    </button>
+    <x-filament::button
+        color="primary"
+        @click="downloadQrCode()"
+    >
+        <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Baixar Imagem
+        </div>
+    </x-filament::button>
 
     <div class="text-center w-full mt-4">
         <p class="text-sm text-gray-600 mb-2">URL Direta para copiar:</p>
