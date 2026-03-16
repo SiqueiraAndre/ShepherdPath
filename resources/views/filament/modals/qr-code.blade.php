@@ -55,15 +55,17 @@
     </x-filament::button>
 
     <div class="text-center w-full mt-4">
-        <p class="text-sm text-gray-600 mb-2">URL Direta para copiar:</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">URL Direta para copiar:</p>
         <div class="flex flex-row items-center gap-2">
             <input type="text" readonly value="{{ url('/?ref=' . $record->hash) }}"
-                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 id="url-to-copy-{{ $record->id }}">
-            <button
-                onclick="navigator.clipboard.writeText(document.getElementById('url-to-copy-{{ $record->id }}').value); alert('Link Copiado!');"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
-                type="button">Copiar</button>
+            <x-filament::button
+                color="gray"
+                @click="navigator.clipboard.writeText(document.getElementById('url-to-copy-{{ $record->id }}').value); alert('Link Copiado!')"
+            >
+                Copiar
+            </x-filament::button>
         </div>
     </div>
 </div>
