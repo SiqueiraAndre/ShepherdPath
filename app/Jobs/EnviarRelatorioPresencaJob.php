@@ -26,8 +26,8 @@ class EnviarRelatorioPresencaJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $inicioSemana = Carbon::now()->startOfWeek();
-        $fimSemana = Carbon::now()->endOfWeek();
+        $inicioSemana = Carbon::now()->startOfWeek(Carbon::MONDAY);
+        $fimSemana = Carbon::now()->startOfWeek(Carbon::MONDAY)->addDays(6)->endOfDay();
 
         // 1. Consultar banco (semana atual)
         $presencas = Presenca::with(['aluno.catequista', 'missa'])
