@@ -26,12 +26,12 @@ class AlunoResource extends Resource
                 Forms\Components\TextInput::make('nome_completo')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('etapa_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('catequista_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('etapa_id')
+                    ->relationship('etapa', 'nome')
+                    ->required(),
+                Forms\Components\Select::make('catequista_id')
+                    ->relationship('catequista', 'nomes')
+                    ->required(),
             ]);
     }
 
@@ -41,12 +41,14 @@ class AlunoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nome_completo')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('etapa_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('catequista_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('etapa.nome')
+                    ->label('Etapa')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('catequista.nomes')
+                    ->label('Catequista')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
