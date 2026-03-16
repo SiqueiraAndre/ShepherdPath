@@ -141,7 +141,7 @@
 
         <!-- Footer -->
         <div class="bg-gray-50 p-4 border-t text-center text-xs text-gray-500">
-            Powered by ShepherdPath
+            Powered by <a href="https://github.com/SiqueiraAndre/ShepherdPath" target="_blank" class="hover:text-[#EF3C74] transition-colors font-medium">ShepherdPath</a>
         </div>
     </div>
 
