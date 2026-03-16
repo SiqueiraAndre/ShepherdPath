@@ -26,9 +26,9 @@ class CatequistaResource extends Resource
                 Forms\Components\TextInput::make('nomes')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('etapa_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('etapa_id')
+                    ->relationship('etapa', 'nome')
+                    ->required(),
             ]);
     }
 
@@ -38,9 +38,10 @@ class CatequistaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nomes')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('etapa_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('etapa.nome')
+                    ->label('Etapa')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
