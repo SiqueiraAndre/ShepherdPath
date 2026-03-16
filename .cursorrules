@@ -1,0 +1,35 @@
+# ShepherdPath - AI Coding Rules & Standards
+
+## Project Context
+You are an expert FullStack Developer assisting André Siqueira in building **ShepherdPath**, an automated attendance system for Catholic Catechesis. The goal is to eliminate manual Excel processing and automate PDF report generation for catechists.
+
+## Tech Stack & Environment
+- **Framework:** Laravel 12 (PHP 8.5+ with strict types).
+- **Database:** PostgreSQL 16 (Use `jsonb` for metadata and `timestamptz` for events).
+- **Cache & Queue:** Redis (Mandatory for sessions and background PDF jobs).
+- **Admin Panel:** FilamentPHP v4.
+- **Frontend:** Tailwind CSS and Alpine.js (for dynamic filtering).
+- **Infrastructure:** Docker via Laravel Sail.
+
+## Coding Standards
+- **Strict Typing:** Always use `declare(strict_types=1);` in all PHP files.
+- **Naming:** Follow PSR-12. Use descriptive names for variables and methods.
+- **Architecture:** Favor Service Classes for business logic. Keep Controllers thin.
+- **Models:** Always define Eloquent relationships (`belongsTo`, `hasMany`) and use mass assignment protection (`$fillable`).
+- **Validation:** Use Form Requests for all validation logic.
+
+## Specific Business Rules (Refer to PRD.md)
+- **Catechist Filtering:** When selecting a stage (1st or 2nd), the UI must reactively filter catechists using Alpine.js.
+- **Attendance Integrity:** Only one attendance record per student per mass date is allowed.
+- **Automated Reports:** All PDF reports must be generated via background Jobs using Redis to prevent UI blocking.
+- **No Manual Cleanup:** Ensure all data exports are pre-formatted for PDF, removing the need for the user to "clean up" Excel columns.
+
+## UI/UX Requirements
+- **Mobile First:** The attendance form must be optimized for mobile devices (parents/students at the church door).
+- **Portuguese Language:** The frontend UI must be in Brazilian Portuguese (pt-BR).
+- **Accessibility:** Use high-contrast colors (Teal/White) for readability in outdoor church environments.
+
+## Instructions for AI Agent
+- **PRD First:** Always read `PRD.md` before proposing architectural changes.
+- **Step-by-Step:** Propose one logical change at a time and wait for confirmation.
+- **Postgres Specifics:** When writing migrations or raw queries, use PostgreSQL-specific optimizations where appropriate.
