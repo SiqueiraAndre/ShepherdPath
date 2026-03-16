@@ -13,18 +13,19 @@ class PresencaController extends Controller
 {
     public function index(Request $request)
     {
+        $link = null;
         if ($request->has('ref')) {
             $link = LinkAcesso::where('hash', $request->query('ref'))->first();
-
-            if (!$link || !$link->is_ativo || ($link->expira_em && $link->expira_em->isPast())) {
-                return view('expirado');
-            }
-
-            // Incrementa o número de cliques/acessos sem afetar o updated_at para não sujar logs
-            $link->timestamps = false;
-            $link->increment('acessos');
-            $link->timestamps = true;
         }
+
+        if (!$link || !$link->is_ativo || ($link->expira_em && $link->expira_em->isPast())) {
+            return view('expirado');
+        }
+
+        // Incrementa o número de cliques/acessos sem afetar o updated_at para não sujar logs
+        $link->timestamps = false;
+        $link->increment('acessos');
+        $link->timestamps = true;
 
         // Carrega as missas e as etapas junto com seus catequistas relacionados
         $missas = Missa::all();
