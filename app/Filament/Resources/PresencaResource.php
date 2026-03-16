@@ -106,6 +106,59 @@ class PresencaResource extends Resource
                         return $indicators;
                     })
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('relatorio_fim_semana')
+                    ->label('Relatório do Final de Semana')
+                    ->icon('heroicon-o-document-chart-bar')
+                    ->color('primary')
+                    ->form([
+                        Forms\Components\DatePicker::make('de')
+                            ->label('De')
+                            ->default(\Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY))
+                            ->required(),
+                        Forms\Components\DatePicker::make('ate')
+                            ->label('Até')
+                            ->default(\Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY)->addDays(6))
+                            ->required(),
+                    ])
+                    ->modalHeading('Gerar Relatório do Final de Semana')
+                    ->modalSubmitActionLabel('Gerar PDF')
+                    ->action(function (array $data) {
+                        $de  = \Carbon\Carbon::parse($data['de'])->startOfDay();
+                        $ate = \Carbon\Carbon::parse($data['ate'])->endOfDay();
+
+                        $presencas = Presenca::with(['aluno.catequista', 'missa'])
+                            ->whereBetween('data_missa', [$de, $ate])
+                            ->get();
+
+                        if ($presencas->isEmpty()) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Nenhuma presença encontrada no período selecionado.')
+                                ->warning()
+                                ->send();
+                            return;
+                        }
+
+                        $agrupamento = $presencas
+                            ->sortBy(fn ($p) => optional($p->aluno)->nome_completo)
+                            ->groupBy(fn ($p) => optional(optional($p->aluno)->catequista)->nomes ?? 'Sem Catequista');
+
+                        $periodo = $de->format('d/m/Y') . ' a ' . $ate->format('d/m/Y');
+
+                        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('relatorios.presenca', [
+                            'agrupamento' => $agrupamento,
+                            'periodo'     => $periodo,
+                        ]);
+
+                        $nomeArquivo = 'relatorio_presenca_' . $de->format('d-m-Y') . '_a_' . $ate->format('d-m-Y') . '.pdf';
+
+                        return response()->streamDownload(
+                            fn () => print($pdf->output()),
+                            $nomeArquivo,
+                            ['Content-Type' => 'application/pdf']
+                        );
+                    }),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -113,6 +166,43 @@ class PresencaResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+
+                    Tables\Actions\BulkAction::make('exportar_excel')
+                        ->label('Exportar para Excel')
+                        ->icon('heroicon-o-table-cells')
+                        ->color('success')
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $export = new \App\Exports\PresencasExport($records->load(['aluno.catequista', 'missa']));
+                            $nomeArquivo = 'presencas_' . now()->format('d-m-Y_H-i-s') . '.xlsx';
+                            return \Maatwebsite\Excel\Facades\Excel::download($export, $nomeArquivo);
+                        })
+                        ->deselectRecordsAfterCompletion(),
+
+                    Tables\Actions\BulkAction::make('exportar_pdf')
+                        ->label('Exportar para PDF')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->color('danger')
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $records->load(['aluno.catequista', 'missa']);
+
+                            $agrupamento = $records
+                                ->sortBy(fn ($p) => optional($p->aluno)->nome_completo)
+                                ->groupBy(fn ($p) => optional(optional($p->aluno)->catequista)->nomes ?? 'Sem Catequista');
+
+                            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('relatorios.presenca', [
+                                'agrupamento' => $agrupamento,
+                                'periodo'     => now()->format('d/m/Y'),
+                            ]);
+
+                            $nomeArquivo = 'presencas_' . now()->format('d-m-Y_H-i-s') . '.pdf';
+
+                            return response()->streamDownload(
+                                fn () => print($pdf->output()),
+                                $nomeArquivo,
+                                ['Content-Type' => 'application/pdf']
+                            );
+                        })
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }
