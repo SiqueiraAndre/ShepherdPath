@@ -71,8 +71,8 @@ class MissaResource extends Resource
     {
         return [
             'index' => Pages\ListMissas::route('/'),
-            'create' => Pages\CreateMissa::route('/create'),
-            'edit' => Pages\EditMissa::route('/{record}/edit'),
+            // 'create' => Pages\CreateMissa::route('/create'),
+            // 'edit' => Pages\EditMissa::route('/{record}/edit'),
         ];
     }
 }

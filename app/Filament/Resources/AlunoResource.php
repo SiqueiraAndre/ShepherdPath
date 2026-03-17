@@ -90,6 +90,8 @@ class AlunoResource extends Resource
     {
         return [
             'index' => Pages\ListAlunos::route('/'),
+            // 'create' => Pages\CreateAluno::route('/create'),
+            // 'edit' => Pages\EditAluno::route('/{record}/edit'),
         ];
     }
 }

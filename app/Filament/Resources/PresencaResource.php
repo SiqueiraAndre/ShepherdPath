@@ -218,8 +218,8 @@ class PresencaResource extends Resource
     {
         return [
             'index' => Pages\ListPresencas::route('/'),
-            'create' => Pages\CreatePresenca::route('/create'),
-            'edit' => Pages\EditPresenca::route('/{record}/edit'),
+            // 'create' => Pages\CreatePresenca::route('/create'),
+            // 'edit' => Pages\EditPresenca::route('/{record}/edit'),
         ];
     }
 }

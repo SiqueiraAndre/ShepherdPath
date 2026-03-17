@@ -71,8 +71,8 @@ class EtapaResource extends Resource
     {
         return [
             'index' => Pages\ListEtapas::route('/'),
-            'create' => Pages\CreateEtapa::route('/create'),
-            'edit' => Pages\EditEtapa::route('/{record}/edit'),
+            // 'create' => Pages\CreateEtapa::route('/create'),
+            // 'edit' => Pages\EditEtapa::route('/{record}/edit'),
         ];
     }
 }

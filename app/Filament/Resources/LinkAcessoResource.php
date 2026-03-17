@@ -110,8 +110,8 @@ class LinkAcessoResource extends Resource
     {
         return [
             'index' => Pages\ListLinkAcessos::route('/'),
-            'create' => Pages\CreateLinkAcesso::route('/create'),
-            'edit' => Pages\EditLinkAcesso::route('/{record}/edit'),
+            // 'create' => Pages\CreateLinkAcesso::route('/create'),
+            // 'edit' => Pages\EditLinkAcesso::route('/{record}/edit'),
         ];
     }
 }

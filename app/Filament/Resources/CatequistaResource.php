@@ -80,8 +80,8 @@ class CatequistaResource extends Resource
     {
         return [
             'index' => Pages\ListCatequistas::route('/'),
-            'create' => Pages\CreateCatequista::route('/create'),
-            'edit' => Pages\EditCatequista::route('/{record}/edit'),
+            // 'create' => Pages\CreateCatequista::route('/create'),
+            // 'edit' => Pages\EditCatequista::route('/{record}/edit'),
         ];
     }
 }
