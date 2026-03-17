@@ -17,28 +17,28 @@ class ResumoGeralWidget extends BaseWidget
     {
         return [
             Stat::make('Alunos', Aluno::count())
-                ->description('Total de alunos cadastrados')
-                ->descriptionIcon('heroicon-m-academic-cap')
-                ->color('primary')
-                ->url(route('filament.admin.resources.alunos.index')),
+            ->description('Total de alunos cadastrados')
+            ->descriptionIcon('heroicon-m-academic-cap')
+            ->color('primary')
+            ->url(route('filament.admin.resources.alunos.index')),
 
             Stat::make('Catequistas', Catequista::count())
-                ->description('Total de catequistas cadastrados')
-                ->descriptionIcon('heroicon-m-user-group')
-                ->color('warning')
-                ->url(route('filament.admin.resources.catequistas.index')),
+            ->description('Total de catequistas cadastrados')
+            ->descriptionIcon('heroicon-m-user-group')
+            ->color('warning')
+            ->url(route('filament.admin.resources.catequistas.index')),
 
             Stat::make('Etapas', Etapa::count())
-                ->description('Total de etapas cadastradas')
-                ->descriptionIcon('heroicon-m-bookmark')
-                ->color('info')
-                ->url(route('filament.admin.resources.etapas.index')),
+            ->description('Total de etapas cadastradas')
+            ->descriptionIcon('heroicon-m-bookmark')
+            ->color('info')
+            ->url(route('filament.admin.resources.etapas.index')),
 
             Stat::make('Missas', Missa::count())
-                ->description('Total de missas cadastradas')
-                ->descriptionIcon('heroicon-m-building-library')
-                ->color('success')
-                ->url(route('filament.admin.resources.missas.index')),
+            ->description('Total de missas cadastradas')
+            ->descriptionIcon('heroicon-m-building-library')
+            ->color('success')
+            ->url(route('filament.admin.resources.missas.index')),
         ];
     }
 }

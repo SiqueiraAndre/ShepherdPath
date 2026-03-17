@@ -17,7 +17,7 @@ class AlunoResource extends Resource
 {
     protected static ?string $model = Aluno::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-m-academic-cap';
 
     protected static ?string $navigationGroup = 'Cadastros';
 
@@ -90,8 +90,6 @@ class AlunoResource extends Resource
     {
         return [
             'index' => Pages\ListAlunos::route('/'),
-            'create' => Pages\CreateAluno::route('/create'),
-            'edit' => Pages\EditAluno::route('/{record}/edit'),
         ];
     }
 }

@@ -17,7 +17,7 @@ class MissaResource extends Resource
 {
     protected static ?string $model = Missa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+    protected static ?string $navigationIcon = 'heroicon-m-building-library';
 
     protected static ?string $navigationGroup = 'Cadastros';
 

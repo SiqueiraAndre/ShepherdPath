@@ -17,7 +17,7 @@ class EtapaResource extends Resource
 {
     protected static ?string $model = Etapa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-m-bookmark';
 
     protected static ?string $navigationGroup = 'Cadastros';
 
