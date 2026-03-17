@@ -27,17 +27,11 @@
         <!-- Formulário -->
         <div class="p-6">
             @if(session('success'))
-            <div
-                x-data="{ show: true }"
-                x-show="show"
-                x-init="setTimeout(() => show = false, 60000)"
-                x-transition:leave="transition ease-in duration-700"
-                x-transition:leave-start="opacity-100"
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 30000)"
+                x-transition:leave="transition ease-in duration-700" x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0"
-                class="bg-pink-100 border border-pink-400 text-pink-700 px-4 py-3 rounded relative mb-4"
-                role="alert"
-            >
-                <span class="block sm:inline">{{ session('success') }}</span>
+                class="bg-pink-100 border border-pink-400 text-pink-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{!! session('success') !!}</span>
             </div>
             @endif
 
