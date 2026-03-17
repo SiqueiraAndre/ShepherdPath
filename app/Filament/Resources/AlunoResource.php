@@ -10,16 +10,17 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AlunoResource extends Resource
 {
     protected static ?string $model = Aluno::class;
-
-    protected static ?string $navigationIcon = 'heroicon-m-academic-cap';
-
     protected static ?string $navigationGroup = 'Cadastros';
+    protected static ?string $navigationIcon = 'heroicon-m-academic-cap';
+    protected static ?string $modelLabel = 'Alunos';
 
     public static function form(Form $form): Form
     {
@@ -69,9 +70,12 @@ class AlunoResource extends Resource
                     ->label('Filtrar por Catequista'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
+                ->dropdownPlacement('bottom-start')                
+            ])            
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

@@ -9,6 +9,9 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class PresencasWidget extends BaseWidget
 {
+    protected static ?int $sort = 2;
+
+    protected static ?string $pollingInterval = '30s';
     protected function getStats(): array
     {
         // Fim de semana atual (Sábado e Domingo), fixando a Sábado como início da semana base local

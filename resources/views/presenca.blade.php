@@ -27,8 +27,16 @@
         <!-- Formulário -->
         <div class="p-6">
             @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                role="alert">
+            <div
+                x-data="{ show: true }"
+                x-show="show"
+                x-init="setTimeout(() => show = false, 60000)"
+                x-transition:leave="transition ease-in duration-700"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="bg-pink-100 border border-pink-400 text-pink-700 px-4 py-3 rounded relative mb-4"
+                role="alert"
+            >
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
             @endif
@@ -141,7 +149,8 @@
 
         <!-- Footer -->
         <div class="bg-gray-50 p-4 border-t text-center text-xs text-gray-500">
-            Powered by <a href="https://github.com/SiqueiraAndre/ShepherdPath" target="_blank" class="hover:text-[#EF3C74] transition-colors font-medium">ShepherdPath</a>
+            Powered by <a href="https://github.com/SiqueiraAndre/ShepherdPath" target="_blank"
+                class="hover:text-[#EF3C74] transition-colors font-medium">ShepherdPath</a>
         </div>
     </div>
 

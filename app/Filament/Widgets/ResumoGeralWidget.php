@@ -13,6 +13,8 @@ class ResumoGeralWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
+    protected static ?string $pollingInterval = '45s';
+
     protected function getStats(): array
     {
         return [
