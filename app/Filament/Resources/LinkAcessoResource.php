@@ -79,10 +79,17 @@ class LinkAcessoResource extends Resource
             ->label('Copiar Link')
             ->icon('heroicon-o-clipboard-document')
             ->color('gray')
-            ->action(function (LinkAcesso $record) {
-        // A simple copy action isn't fully native via backend action without Alpine/browser API in V3 easily, 
-        // but Filament has a copyable() text column. We can use that in the column!
-        }),
+            ->extraAttributes(function (LinkAcesso $record): array {
+            $url = url('/presenca?ref=' . $record->hash);
+            return [
+                    'x-on:click.prevent' => "
+                        navigator.clipboard.writeText('{$url}')
+                            .then(() => { \$dispatch('notify', { message: 'Link copiado para a área de transferência!', type: 'success' }); })
+                            .catch(() => { window.prompt('Copie o link:', '{$url}'); });
+                    ",
+                ];
+        })
+            ->action(fn() => null),
             Tables\Actions\Action::make('qrcode')
             ->label('QR Code')
             ->icon('heroicon-o-qr-code')
