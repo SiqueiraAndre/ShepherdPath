@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,13 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password'),
-        ]);
+        // Roles, permissões e usuário admin devem vir primeiro
+        $this->call(RoleSeeder::class);
 
         // Criando Missas
         $missas = [
@@ -47,7 +40,7 @@ class DatabaseSeeder extends Seeder
 
         // Criando Catequistas da 2ª Etapa
         $etapa2->catequistas()->createMany([
-            ['nomes' => 'Nani e Rosana'],
+            ['nomes' => 'Nane e Rosana'],
             ['nomes' => 'Cristiane e Patrícia'],
         ]);
 

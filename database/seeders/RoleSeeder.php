@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -11,8 +12,9 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Cria os 4 perfis de acesso
+        // Cria os perfis de acesso da aplicação
         $roles = [
+            'super_admin',   // acesso irrestrito (Filament Shield bypass)
             'administrador',
             'supervisor',
             'coordenador',
@@ -23,19 +25,27 @@ class RoleSeeder extends Seeder
             Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
         }
 
+        // Gera/atualiza todas as permissões dos resources no banco
+        Artisan::call('shield:generate', ['--all' => true, '--minimal' => true]);
+
+        // Atribui todas as permissões geradas ao role 'administrador'
+        $adminRole = Role::findByName('administrador', 'web');
+        $adminRole->syncPermissions(\Spatie\Permission\Models\Permission::all());
+
         // Cria o usuário admin padrão caso não exista
         $admin = User::firstOrCreate(
-            ['email' => 'admin@catequese.local'],
+            ['email' => 'admin@admin.com'],
             [
                 'name'     => 'Administrador',
                 'password' => Hash::make('admin@catequese'),
             ]
         );
 
-        // Garante que o admin tenha o role administrador
-        $admin->syncRoles(['administrador']);
+        // Atribui super_admin para bypass irrestrito no Filament Shield
+        $admin->syncRoles(['super_admin']);
 
         $this->command->info('✅ Roles criados: ' . implode(', ', $roles));
-        $this->command->info('✅ Usuário admin criado: admin@catequese.local (senha: admin@catequese)');
+        $this->command->info('✅ Permissões geradas e atribuídas ao role administrador.');
+        $this->command->info('✅ Usuário admin: admin@admin.com (senha: admin@catequese) → role: super_admin');
     }
 }
