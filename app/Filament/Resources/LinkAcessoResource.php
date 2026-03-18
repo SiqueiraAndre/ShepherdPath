@@ -79,17 +79,14 @@ class LinkAcessoResource extends Resource
             ->label('Copiar Link')
             ->icon('heroicon-o-clipboard-document')
             ->color('gray')
+            // ->url() renders an <a> tag (no wire:click), allowing Alpine x-on:click.prevent to run cleanly
+            ->url(fn(LinkAcesso $record): string => '#')
             ->extraAttributes(function (LinkAcesso $record): array {
             $url = url('/presenca?ref=' . $record->hash);
             return [
-                    'x-on:click.prevent' => "
-                        navigator.clipboard.writeText('{$url}')
-                            .then(() => { \$dispatch('notify', { message: 'Link copiado para a área de transferência!', type: 'success' }); })
-                            .catch(() => { window.prompt('Copie o link:', '{$url}'); });
-                    ",
+                    'x-on:click.prevent' => "navigator.clipboard.writeText('{$url}').then(() => { \$dispatch('notify', { message: 'Link copiado!', type: 'success' }); }).catch(() => { window.prompt('Copie o link:', '{$url}'); });",
                 ];
-        })
-            ->action(fn() => null),
+        }),
             Tables\Actions\Action::make('qrcode')
             ->label('QR Code')
             ->icon('heroicon-o-qr-code')
