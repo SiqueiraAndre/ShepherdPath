@@ -44,11 +44,11 @@ class PresencaController extends Controller
         ]);
 
         $aluno = Aluno::firstOrCreate(
-            ['nome_completo' => $request->nome_completo],
-            [
-                'etapa_id' => $request->etapa_id,
-                'catequista_id' => $request->catequista_id,
-            ]
+        ['nome_completo' => $request->nome_completo],
+        [
+            'etapa_id' => $request->etapa_id,
+            'catequista_id' => $request->catequista_id,
+        ]
         );
 
         if ($aluno->etapa_id != $request->etapa_id || $aluno->catequista_id != $request->catequista_id) {
@@ -64,6 +64,6 @@ class PresencaController extends Controller
             'data_missa' => now()->toDateString(),
         ]);
 
-        return redirect()->back()->with('success', 'Presença de ' . $aluno->nome_completo . ' registrada com sucesso!');
+        return redirect()->back()->with('success', 'Presença de <b>' . $aluno->nome_completo . '</b> registrada com sucesso!');
     }
 }

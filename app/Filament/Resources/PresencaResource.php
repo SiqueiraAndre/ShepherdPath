@@ -18,9 +18,9 @@ class PresencaResource extends Resource
 {
     protected static ?string $model = Presenca::class;
 
-    protected static ?string $modelLabel = 'Presença';
+    protected static ?string $modelLabel = 'Presenças Confirmadas';
 
-    protected static ?string $pluralModelLabel = 'Presenças';
+    protected static ?string $pluralModelLabel = 'Presenças Confirmadas';
 
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 

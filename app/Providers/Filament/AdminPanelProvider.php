@@ -40,9 +40,10 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->navigationGroups([
-                NavigationGroup::make('Administração'),
                 NavigationGroup::make('Cadastros'),
                 NavigationGroup::make('Utilitários'),
+                NavigationGroup::make('Configurações')
+                ->icon('heroicon-o-cog-6-tooth'),                
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

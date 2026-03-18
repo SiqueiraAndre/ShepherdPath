@@ -21,7 +21,7 @@ class UserResource extends Resource
     protected static ?string $pluralModelLabel = 'Usuários';
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
-    protected static ?string $navigationGroup = 'Administração';
+    protected static ?string $navigationGroup = 'Configurações';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -42,6 +42,12 @@ class UserResource extends Resource
                             ->unique(User::class, 'email', ignoreRecord: true)
                             ->maxLength(255),
 
+                        Forms\Components\TextInput::make('phone')
+                            ->label('Telefone')
+                            ->mask('(99) 99999-9999')
+                            ->placeholder('(00) 00000-0000')
+                            ->maxLength(15),                       
+                        
                         Forms\Components\TextInput::make('password')
                             ->label('Senha')
                             ->password()
@@ -50,12 +56,18 @@ class UserResource extends Resource
                             ->required(fn (string $operation) => $operation === 'create')
                             ->helperText('Deixe em branco para manter a senha atual (apenas na edição).'),
 
+                        Forms\Components\FileUpload::make('avatar')
+                            ->directory('avatars')
+                            ->avatar()
+                            ->imageEditor(),
+
                         Forms\Components\Select::make('roles')
                             ->label('Perfil de Acesso')
                             ->relationship('roles', 'name')
                             ->options(Role::pluck('name', 'id'))
                             ->required()
                             ->preload(),
+                            
                     ])
                     ->columns(2),
             ]);
@@ -69,6 +81,17 @@ class UserResource extends Resource
                     ->label('Nome')
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->label('Avatar')
+                    ->circular()
+                    ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('Telefone')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),                    
 
                 Tables\Columns\TextColumn::make('email')
                     ->label('E-mail')
@@ -118,5 +141,10 @@ class UserResource extends Resource
             // 'create' => Pages\CreateUser::route('/create'),
             // 'edit'   => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }
