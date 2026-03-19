@@ -37,8 +37,9 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->defaultThemeMode(ThemeMode::System)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Rose,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->navigationGroups([
                 NavigationGroup::make('Cadastros'),
                 NavigationGroup::make('Utilitários'),
