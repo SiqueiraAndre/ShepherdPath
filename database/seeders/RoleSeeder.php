@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
         }
 
         // Gera/atualiza todas as permissões dos resources no banco
-        Artisan::call('shield:generate', ['--all' => true, '--minimal' => true]);
+        Artisan::call('shield:generate', ['--all' => true, '--minimal' => true, '--panel' => 'admin']);
 
         // Atribui todas as permissões geradas ao role 'administrador'
         $adminRole = Role::findByName('administrador', 'web');
