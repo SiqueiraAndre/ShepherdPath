@@ -40,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Rose,
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
+            // ->topNavigation()
             ->navigationGroups([
                 NavigationGroup::make('Cadastros'),
                 NavigationGroup::make('Utilitários'),
