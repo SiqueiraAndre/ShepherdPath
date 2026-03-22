@@ -4,7 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-in da Catequese - ShepherdPath</title>
+    <title>Check-in da Catequese - Nossa Senhora Menina</title>
+    
+    <!-- SEO Básico -->
+    <meta name="description" content="Página de check-in para confirmar a presença de catequisandos na Santa Missa da Paróquia Nossa Senhora Menina.">
+    <meta name="keywords" content="catequese, paróquia, nossa senhora menina, check-in, presença, santa missa, igreja católica">
+    <meta name="author" content="Paróquia Nossa Senhora Menina">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Redes Sociais -->
+    <meta property="og:title" content="Check-in da Catequese - Nossa Senhora Menina">
+    <meta property="og:description" content="Confirme sua presença ou do seu catequisando na Santa Missa.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('images/logo.png') }}">
+
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -13,16 +27,16 @@
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
     <!-- Container Principal do Alpine.js -->
-    <div x-data="checkinForm()" class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+    <main x-data="checkinForm()" class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
 
         <!-- Header -->
-        <div class="p-6 text-white text-center flex flex-col items-center" style="background-color: #EF3C74;">
+        <header class="p-6 text-white text-center flex flex-col items-center" style="background-color: #EF3C74;">
             <!-- Logo da Paróquia -->
-            <img src="{{ asset('images/logo.png') }}" alt="Paróquia Nossa Senhora Menina"
+            <img src="{{ asset('images/logo.png') }}" alt="Logotipo da Paróquia Nossa Senhora Menina"
                 class="w-32 h-32 object-contain mb-4 rounded-full shadow-md border-4 border-white bg-white">
             <h1 class="text-2xl font-bold">Catequese Paroquial</h1>
             <p class="text-[white]/80 mt-1">Check-in de Presença da Santa Missa</p>
-        </div>
+        </header>
 
         <!-- Formulário -->
         <div class="p-6">
@@ -142,11 +156,11 @@
         </div>
 
         <!-- Footer -->
-        <div class="bg-gray-50 p-4 border-t text-center text-xs text-gray-500">
+        <footer class="bg-gray-50 p-4 border-t text-center text-xs text-gray-500">
             Powered by <a href="https://github.com/SiqueiraAndre/ShepherdPath" target="_blank"
                 class="hover:text-[#EF3C74] transition-colors font-medium">ShepherdPath</a>
-        </div>
-    </div>
+        </footer>
+    </main>
 
     <!-- Script de Inicialização e Lógica Alpine.js -->
     <script>
