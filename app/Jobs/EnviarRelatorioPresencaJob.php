@@ -30,7 +30,7 @@ class EnviarRelatorioPresencaJob implements ShouldQueue
         $fimSemana = Carbon::now()->startOfWeek(Carbon::MONDAY)->addDays(6)->endOfDay();
 
         // 1. Consultar banco (semana atual)
-        $presencas = Presenca::with(['aluno.catequista', 'missa'])
+        $presencas = Presenca::with(['catequizando.catequista', 'missa'])
             ->whereBetween('data_missa', [$inicioSemana, $fimSemana])
             ->get();
 
@@ -40,8 +40,8 @@ class EnviarRelatorioPresencaJob implements ShouldQueue
 
         // 2. Ordenar alfabeticamente e Agrupar por catequista
         $presencasAgrupadas = $presencas
-            ->sortBy(fn($p) => optional($p->aluno)->nome_completo)
-            ->groupBy(fn($p) => optional(optional($p->aluno)->catequista)->nomes ?? 'Sem Catequista');
+            ->sortBy(fn($p) => optional($p->catequizando)->nome_completo)
+            ->groupBy(fn($p) => optional(optional($p->catequizando)->catequista)->nomes ?? 'Sem Catequista');
 
         // 3. Gerar PDF
         $pdf = Pdf::loadView('relatorios.presenca', [

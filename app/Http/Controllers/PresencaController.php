@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Etapa;
 use App\Models\Missa;
-use App\Models\Aluno;
+use App\Models\Catequizando;
 use App\Models\Presenca;
 use App\Models\LinkAcesso;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class PresencaController extends Controller
 
         // Carrega as missas e as etapas junto com seus catequistas relacionados
         $missas = Missa::all();
-        $etapas = Etapa::with(['catequistas', 'catequistas.alunos'])->get();
+        $etapas = Etapa::with(['catequistas', 'catequistas.catequizandos'])->get();
 
         return view('presenca', compact('missas', 'etapas'));
     }
@@ -43,7 +43,7 @@ class PresencaController extends Controller
             'catequista_id' => 'required|exists:catequistas,id',
         ]);
 
-        $aluno = Aluno::firstOrCreate(
+        $catequizando = Catequizando::firstOrCreate(
         ['nome_completo' => $request->nome_completo],
         [
             'etapa_id' => $request->etapa_id,
@@ -51,19 +51,19 @@ class PresencaController extends Controller
         ]
         );
 
-        if ($aluno->etapa_id != $request->etapa_id || $aluno->catequista_id != $request->catequista_id) {
-            $aluno->update([
+        if ($catequizando->etapa_id != $request->etapa_id || $catequizando->catequista_id != $request->catequista_id) {
+            $catequizando->update([
                 'etapa_id' => $request->etapa_id,
                 'catequista_id' => $request->catequista_id,
             ]);
         }
 
         Presenca::create([
-            'aluno_id' => $aluno->id,
+            'catequizando_id' => $catequizando->id,
             'missa_id' => $request->missa_id,
             'data_missa' => now()->toDateString(),
         ]);
 
-        return redirect()->back()->with('success', 'Presença de <b>' . $aluno->nome_completo . '</b> registrada com sucesso!');
+        return redirect()->back()->with('success', 'Presença de <b>' . $catequizando->nome_completo . '</b> registrada com sucesso!');
     }
 }

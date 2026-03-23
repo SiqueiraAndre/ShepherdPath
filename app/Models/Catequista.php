@@ -13,8 +13,8 @@ class Catequista extends Model
         return $this->belongsTo(Etapa::class);
     }
 
-    public function alunos()
+    public function catequizandos()
     {
-        return $this->hasMany(Aluno::class);
+        return $this->hasMany(Catequizando::class);
     }
 }

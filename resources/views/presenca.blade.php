@@ -113,24 +113,24 @@
                     @enderror
                 </div>
 
-                <!-- Nome do Aluno (Aparece apos Catequista e Busca Dinâmica) -->
+                <!-- Nome do Catequizando (Aparece apos Catequista e Busca Dinâmica) -->
                 <div x-show="catequistaSelecionado !== ''" x-transition.duration.300ms x-cloak class="relative"
-                    @click.away="mostrarListaAlunos = false">
+                    @click.away="mostrarListaCatequizandos = false">
                     <label for="nome_completo" class="block text-sm font-medium text-gray-700 mb-1">Qual o seu
                         nome?</label>
                     <input type="text" id="nome_completo" name="nome_completo" x-model="nome_completo" required
-                        @focus="mostrarListaAlunos = true" @input="mostrarListaAlunos = true"
+                        @focus="mostrarListaCatequizandos = true" @input="mostrarListaCatequizandos = true"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#EF3C74] focus:border-[#EF3C74] transition-colors"
                         placeholder="Digite pra buscar ou cadastrar..." autocomplete="off">
 
                     <!-- Dropdown Customizado Tailwind -->
-                    <div x-show="mostrarListaAlunos && alunosFiltradosPorBusca.length > 0" x-transition x-cloak
+                    <div x-show="mostrarListaCatequizandos && catequizandosFiltradosPorBusca.length > 0" x-transition x-cloak
                         class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl max-h-48 overflow-y-auto">
                         <ul class="py-1">
-                            <template x-for="aluno in alunosFiltradosPorBusca" :key="aluno.id">
-                                <li @click="nome_completo = aluno.nome_completo; mostrarListaAlunos = false"
+                            <template x-for="catequizando in catequizandosFiltradosPorBusca" :key="catequizando.id">
+                                <li @click="nome_completo = catequizando.nome_completo; mostrarListaCatequizandos = false"
                                     class="px-4 py-2 hover:bg-[#EF3C74]/10 cursor-pointer text-gray-700 transition-colors"
-                                    x-text="aluno.nome_completo"></li>
+                                    x-text="catequizando.nome_completo"></li>
                             </template>
                         </ul>
                     </div>
@@ -169,7 +169,7 @@
                 etapaSelecionada: '',
                 catequistaSelecionado: '',
                 nome_completo: '',
-                mostrarListaAlunos: false,
+                mostrarListaCatequizandos: false,
                 // Passa a collection inteira de etapas serializada do Blade para JS 
                 etapasData: @json($etapas),
 
@@ -184,18 +184,18 @@
                     return etapa ? etapa.catequistas : [];
                 },
 
-                get alunosFiltrados() {
+                get catequizandosFiltrados() {
                     if (!this.catequistaSelecionado) return [];
 
                     const listagemCatequistas = this.catequistasFiltrados;
                     const catequistaInfo = listagemCatequistas.find(c => c.id == this.catequistaSelecionado);
 
-                    return catequistaInfo && catequistaInfo.alunos ? catequistaInfo.alunos : [];
+                    return catequistaInfo && catequistaInfo.catequizandos ? catequistaInfo.catequizandos : [];
                 },
 
-                get alunosFiltradosPorBusca() {
+                get catequizandosFiltradosPorBusca() {
                     const termo = this.nome_completo.toLowerCase();
-                    return this.alunosFiltrados.filter(a => a.nome_completo.toLowerCase().includes(termo));
+                    return this.catequizandosFiltrados.filter(a => a.nome_completo.toLowerCase().includes(termo));
                 }
             }))
         })

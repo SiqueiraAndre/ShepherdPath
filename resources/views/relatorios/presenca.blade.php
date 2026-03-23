@@ -19,7 +19,7 @@
     <h1>Relatório de Presença - Catequese</h1>
     <div class="periodo">Período: {{ $periodo }}</div>
 
-    @forelse($agrupamento as $catequista => $listaPresencas)
+    @forelse ($agrupamento as $catequista => $listaPresencas)
         <div class="catequista-title">
             <strong>Catequista(s):</strong> {{ $catequista }}
         </div>
@@ -28,16 +28,16 @@
             <thead>
                 <tr>
                     <th width="5%">#</th>
-                    <th width="45%">Nome do Aluno(a)</th>
+                    <th width="45%">Nome do Catequizando(a)</th>
                     <th width="30%">Missa Frequentada</th>
                     <th width="20%">Data do Check-in</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($listaPresencas as $index => $presenca)
+                @foreach ($listaPresencas as $index => $presenca)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ optional($presenca->aluno)->nome_completo ?? 'N/A' }}</td>
+                        <td>{{ optional($presenca->catequizando)->nome_completo ?? 'N/A' }}</td>
                         <td>{{ optional($presenca->missa)->descricao ?? 'N/A' }}</td>
                         <td>{{ $presenca->data_missa ? $presenca->data_missa->format('d/m/Y') : 'N/A' }}</td>
                     </tr>

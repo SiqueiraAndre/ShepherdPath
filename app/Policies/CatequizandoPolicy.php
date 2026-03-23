@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Aluno;
+use App\Models\Catequizando;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AlunoPolicy
+class CatequizandoPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class AlunoPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_aluno');
+        return $user->can('view_any_catequizando');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Aluno $aluno): bool
+    public function view(User $user, Catequizando $catequizando): bool
     {
-        return $user->can('view_aluno');
+        return $user->can('view_catequizando');
     }
 
     /**
@@ -31,23 +31,23 @@ class AlunoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_aluno');
+        return $user->can('create_catequizando');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Aluno $aluno): bool
+    public function update(User $user, Catequizando $catequizando): bool
     {
-        return $user->can('update_aluno');
+        return $user->can('update_catequizando');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Aluno $aluno): bool
+    public function delete(User $user, Catequizando $catequizando): bool
     {
-        return $user->can('delete_aluno');
+        return $user->can('delete_catequizando');
     }
 
     /**
@@ -55,15 +55,15 @@ class AlunoPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_aluno');
+        return $user->can('delete_any_catequizando');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Aluno $aluno): bool
+    public function forceDelete(User $user, Catequizando $catequizando): bool
     {
-        return $user->can('force_delete_aluno');
+        return $user->can('force_delete_catequizando');
     }
 
     /**
@@ -71,15 +71,15 @@ class AlunoPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_aluno');
+        return $user->can('force_delete_any_catequizando');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Aluno $aluno): bool
+    public function restore(User $user, Catequizando $catequizando): bool
     {
-        return $user->can('restore_aluno');
+        return $user->can('restore_catequizando');
     }
 
     /**
@@ -87,15 +87,15 @@ class AlunoPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_aluno');
+        return $user->can('restore_any_catequizando');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Aluno $aluno): bool
+    public function replicate(User $user, Catequizando $catequizando): bool
     {
-        return $user->can('replicate_aluno');
+        return $user->can('replicate_catequizando');
     }
 
     /**
@@ -103,6 +103,6 @@ class AlunoPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_aluno');
+        return $user->can('reorder_catequizando');
     }
 }

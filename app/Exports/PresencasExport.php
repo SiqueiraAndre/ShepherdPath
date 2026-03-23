@@ -29,7 +29,7 @@ class PresencasExport implements FromCollection, WithHeadings, WithMapping, With
     {
         return [
             '#',
-            'Aluno(a)',
+            'Catequizando(a)',
             'Catequista',
             'Missa',
             'Data',
@@ -43,8 +43,8 @@ class PresencasExport implements FromCollection, WithHeadings, WithMapping, With
 
         return [
             $index,
-            optional($presenca->aluno)->nome_completo ?? 'N/A',
-            optional(optional($presenca->aluno)->catequista)->nomes ?? 'Sem Catequista',
+            optional($presenca->catequizando)->nome_completo ?? 'N/A',
+            optional(optional($presenca->catequizando)->catequista)->nomes ?? 'Sem Catequista',
             optional($presenca->missa)->descricao ?? 'N/A',
             $presenca->data_missa ? $presenca->data_missa->format('d/m/Y') : 'N/A',
         ];

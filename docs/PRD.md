@@ -20,14 +20,14 @@ Atualmente, o coordenador da catequese enfrenta os seguintes gargalos:
 * Interface mobile-first para preenchimento rápido na porta da missa.
 * Seleção obrigatória do horário da missa (Sábado 16h/19h, Domingo 7h30/10h/19h).
 * Filtro dinâmico: Ao selecionar a etapa (1ª ou 2ª), o sistema deve exibir apenas os catequistas vinculados àquela etapa.
-* Busca por nome de aluno para evitar erros de digitação.
+* Busca por nome de catequizando para evitar erros de digitação.
 
 ### 4.2. Painel Administrativo (Privado)
-* Gerenciamento de Etapas, Catequistas e Alunos via FilamentPHP.
+* Gerenciamento de Etapas, Catequistas e Catequizandos via FilamentPHP.
 * Dashboard com contagem de presenças por missa.
 
 ### 4.3. Relatórios e Automação
-* **Job Semanal**: Geração automática de relatórios em PDF organizados por catequista e ordem alfabética de alunos.
+* **Job Semanal**: Geração automática de relatórios em PDF organizados por catequista e ordem alfabética de catequizandos.
 * **Fim da limpeza de dados**: O sistema deve exportar apenas dados preenchidos, sem colunas vazias.
 
 ## 5. Arquitetura Técnica
@@ -41,8 +41,8 @@ Atualmente, o coordenador da catequese enfrenta os seguintes gargalos:
 * **etapas**: `id`, `nome` (1ª etapa, 2ª etapa).
 * **catequistas**: `id`, `nomes`, `etapa_id`.
 * **missas**: `id`, `descricao`.
-* **alunos**: `id`, `nome_completo`, `etapa_id`, `catequista_id`.
-* **presencas**: `id`, `aluno_id`, `missa_id`, `data_missa`.
+* **catequizandos**: `id`, `nome_completo`, `etapa_id`, `catequista_id`.
+* **presencas**: `id`, `catequizando_id`, `missa_id`, `data_missa`.
 
 ## 7. Cronograma de Implementação (Tasks para IA)
 1. **Fase 1**: Setup do ambiente Docker/Sail com PostgreSQL e Redis.

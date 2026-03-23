@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AlunoResource\Pages;
-use App\Filament\Resources\AlunoResource\RelationManagers;
-use App\Models\Aluno;
+use App\Filament\Resources\CatequizandoResource\Pages;
+use App\Filament\Resources\CatequizandoResource\RelationManagers;
+use App\Models\Catequizando;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,12 +15,12 @@ use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AlunoResource extends Resource
+class CatequizandoResource extends Resource
 {
-    protected static ?string $model = Aluno::class;
+    protected static ?string $model = Catequizando::class;
     protected static ?string $navigationGroup = 'Cadastros';
     protected static ?string $navigationIcon = 'heroicon-m-academic-cap';
-    protected static ?string $modelLabel = 'Alunos';
+    protected static ?string $modelLabel = 'Catequizandos';
 
     public static function form(Form $form): Form
     {
@@ -93,9 +93,9 @@ class AlunoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAlunos::route('/'),
-            // 'create' => Pages\CreateAluno::route('/create'),
-            // 'edit' => Pages\EditAluno::route('/{record}/edit'),
+            'index' => Pages\ListCatequizandos::route('/'),
+            // 'create' => Pages\CreateCatequizando::route('/create'),
+            // 'edit' => Pages\EditCatequizando::route('/{record}/edit'),
         ];
     }
 }

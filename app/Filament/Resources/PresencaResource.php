@@ -30,8 +30,8 @@ class PresencaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('aluno_id')
-                    ->relationship('aluno', 'nome_completo')
+                Forms\Components\Select::make('catequizando_id')
+                    ->relationship('catequizando', 'nome_completo')
                     ->searchable()
                     ->required(),
                 Forms\Components\Select::make('missa_id')
@@ -46,11 +46,11 @@ class PresencaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('aluno.nome_completo')
-                    ->label('Aluno(a)')
+                Tables\Columns\TextColumn::make('catequizando.nome_completo')
+                    ->label('Catequizando(a)')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('aluno.catequista.nomes')
+                Tables\Columns\TextColumn::make('catequizando.catequista.nomes')
                     ->label('Catequista')
                     ->searchable()
                     ->sortable(),
@@ -76,7 +76,7 @@ class PresencaResource extends Resource
                     ->relationship('missa', 'descricao')
                     ->label('Filtrar por Missa'),
                 Tables\Filters\SelectFilter::make('catequista')
-                    ->relationship('aluno.catequista', 'nomes')
+                    ->relationship('catequizando.catequista', 'nomes')
                     ->label('Filtrar por Catequista'),
                 Tables\Filters\Filter::make('data_missa')
                     ->form([
@@ -128,7 +128,7 @@ class PresencaResource extends Resource
                         $de  = \Carbon\Carbon::parse($data['de'])->startOfDay();
                         $ate = \Carbon\Carbon::parse($data['ate'])->endOfDay();
 
-                        $presencas = Presenca::with(['aluno.catequista', 'missa'])
+                        $presencas = Presenca::with(['catequizando.catequista', 'missa'])
                             ->whereBetween('data_missa', [$de, $ate])
                             ->get();
 
@@ -141,8 +141,8 @@ class PresencaResource extends Resource
                         }
 
                         $agrupamento = $presencas
-                            ->sortBy(fn ($p) => optional($p->aluno)->nome_completo)
-                            ->groupBy(fn ($p) => optional(optional($p->aluno)->catequista)->nomes ?? 'Sem Catequista');
+                            ->sortBy(fn ($p) => optional($p->catequizando)->nome_completo)
+                            ->groupBy(fn ($p) => optional(optional($p->catequizando)->catequista)->nomes ?? 'Sem Catequista');
 
                         $periodo = $de->format('d/m/Y') . ' a ' . $ate->format('d/m/Y');
 
@@ -175,7 +175,7 @@ class PresencaResource extends Resource
                         ->icon('heroicon-o-table-cells')
                         ->color('success')
                         ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
-                            $export = new \App\Exports\PresencasExport($records->load(['aluno.catequista', 'missa']));
+                            $export = new \App\Exports\PresencasExport($records->load(['catequizando.catequista', 'missa']));
                             $nomeArquivo = 'presencas_' . now()->format('d-m-Y_H-i-s') . '.xlsx';
                             return \Maatwebsite\Excel\Facades\Excel::download($export, $nomeArquivo);
                         })
@@ -186,11 +186,11 @@ class PresencaResource extends Resource
                         ->icon('heroicon-o-document-arrow-down')
                         ->color('danger')
                         ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
-                            $records->load(['aluno.catequista', 'missa']);
+                            $records->load(['catequizando.catequista', 'missa']);
 
                             $agrupamento = $records
-                                ->sortBy(fn ($p) => optional($p->aluno)->nome_completo)
-                                ->groupBy(fn ($p) => optional(optional($p->aluno)->catequista)->nomes ?? 'Sem Catequista');
+                                ->sortBy(fn ($p) => optional($p->catequizando)->nome_completo)
+                                ->groupBy(fn ($p) => optional(optional($p->catequizando)->catequista)->nomes ?? 'Sem Catequista');
 
                             $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('relatorios.presenca', [
                                 'agrupamento' => $agrupamento,

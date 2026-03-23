@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Aluno;
+use App\Models\Catequizando;
 use App\Models\Catequista;
 use App\Models\Etapa;
 use App\Models\LinkAcesso;
@@ -25,11 +25,11 @@ class ResumoGeralWidget extends BaseWidget
         $totalPresencas = Presenca::whereBetween('data_missa', [$inicioFimDeSemana, $fimFimDeSemana])->count();
 
         return [
-            Stat::make('Alunos', Aluno::count())
-            ->description('Total de Alunos')
+            Stat::make('Catequizandos', Catequizando::count())
+            ->description('Total de Catequizandos')
             ->descriptionIcon('heroicon-m-academic-cap')
             ->color('primary')
-            ->url(route('filament.admin.resources.alunos.index')),
+            ->url(route('filament.admin.resources.catequizandos.index')),
 
             Stat::make('Catequistas', Catequista::count())
             ->description('Total de Catequistas')

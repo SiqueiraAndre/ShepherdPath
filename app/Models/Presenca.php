@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Presenca extends Model
 {
-    protected $fillable = ['aluno_id', 'missa_id', 'data_missa'];
+    protected $fillable = ['catequizando_id', 'missa_id', 'data_missa'];
 
     protected $casts = [
         'data_missa' => 'date',
     ];
 
-    public function aluno()
+    public function catequizando()
     {
-        return $this->belongsTo(Aluno::class);
+        return $this->belongsTo(Catequizando::class);
     }
 
     public function missa()

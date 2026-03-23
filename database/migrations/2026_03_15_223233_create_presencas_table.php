@@ -12,13 +12,13 @@ return new class extends Migration {
     {
         Schema::create('presencas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('aluno_id')->constrained('alunos')->onDelete('cascade');
+            $table->foreignId('catequizando_id')->constrained('catequizandos')->onDelete('cascade');
             $table->foreignId('missa_id')->constrained('missas');
             $table->date('data_missa'); // A data do evento
             $table->timestamps();
             
             // Index para otimizar a busca semanal que você faz
-            $table->index(['data_missa', 'aluno_id']);
+            $table->index(['data_missa', 'catequizando_id']);
         });
     }
 

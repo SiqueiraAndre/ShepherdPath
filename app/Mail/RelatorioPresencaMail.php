@@ -45,13 +45,13 @@ class RelatorioPresencaMail extends Mailable
         $inicio = $this->agendamento->periodo_inicio->startOfDay();
         $fim    = $this->agendamento->periodo_fim->endOfDay();
 
-        $presencas = Presenca::with(['aluno.catequista', 'missa'])
+        $presencas = Presenca::with(['catequizando.catequista', 'missa'])
             ->whereBetween('data_missa', [$inicio, $fim])
             ->get();
 
         $agrupamento = $presencas
-            ->sortBy(fn ($p) => optional($p->aluno)->nome_completo)
-            ->groupBy(fn ($p) => optional(optional($p->aluno)->catequista)->nomes ?? 'Sem Catequista');
+            ->sortBy(fn ($p) => optional($p->catequizando)->nome_completo)
+            ->groupBy(fn ($p) => optional(optional($p->catequizando)->catequista)->nomes ?? 'Sem Catequista');
 
         $periodo = $inicio->format('d/m/Y') . ' a ' . $fim->format('d/m/Y');
 
