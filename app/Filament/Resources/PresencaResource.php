@@ -26,6 +26,8 @@ class PresencaResource extends Resource
 
     protected static ?string $navigationGroup = 'Utilitários';
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -109,9 +111,11 @@ class PresencaResource extends Resource
             ])
             ->headerActions([
                 Tables\Actions\Action::make('relatorio_fim_semana')
-                    ->label('Relatório do Final de Semana')
-                    ->icon('heroicon-o-document-chart-bar')
-                    ->color('primary')
+                ->label('Exportar')
+                ->icon('heroicon-m-arrow-down-tray')
+                ->button()
+                ->color('primary')
+
                     ->form([
                         Forms\Components\DatePicker::make('de')
                             ->label('De')

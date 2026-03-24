@@ -22,6 +22,8 @@ class CatequistaResource extends Resource
 
     protected static ?string $navigationGroup = 'Cadastros';
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form

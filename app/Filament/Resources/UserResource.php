@@ -46,6 +46,7 @@ class UserResource extends Resource
                             ->label('Telefone')
                             ->mask('(99) 99999-9999')
                             ->placeholder('(00) 00000-0000')
+                            ->tel()
                             ->maxLength(15),                       
                         
                         Forms\Components\TextInput::make('password')

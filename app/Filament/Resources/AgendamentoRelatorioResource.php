@@ -24,7 +24,7 @@ class AgendamentoRelatorioResource extends Resource
 
     protected static ?string $navigationGroup = 'Utilitários';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -49,7 +49,7 @@ class AgendamentoRelatorioResource extends Resource
                 ->label('Data e hora de envio')
                 ->seconds(false)
                 ->native(false)
-                ->default(fn () => now()->next(\Carbon\Carbon::MONDAY)->setTime(10, 0))
+                ->default(fn() => now()->next(\Carbon\Carbon::MONDAY)->setTime(10, 0))
                 ->required(),
                 Forms\Components\Select::make('status')
                 ->label('Status')
@@ -71,12 +71,12 @@ class AgendamentoRelatorioResource extends Resource
                 Forms\Components\DatePicker::make('periodo_inicio')
                 ->label('De')
                 ->native(false)
-                ->default(fn () => now()->next(\Carbon\Carbon::MONDAY)->subDays(2))
+                ->default(fn() => now()->next(\Carbon\Carbon::MONDAY)->subDays(2))
                 ->required(),
                 Forms\Components\DatePicker::make('periodo_fim')
                 ->label('Até')
                 ->native(false)
-                ->default(fn () => now()->next(\Carbon\Carbon::MONDAY)->subDays(1))
+                ->default(fn() => now()->next(\Carbon\Carbon::MONDAY)->subDays(1))
                 ->required()
                 ->afterOrEqual('periodo_inicio'),
             ]),

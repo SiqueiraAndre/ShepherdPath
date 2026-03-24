@@ -20,7 +20,9 @@ class EtapaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-m-bookmark';
 
-    protected static ?string $navigationGroup = 'Cadastros';
+    protected static ?string $navigationGroup = 'Cadastros';    
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
